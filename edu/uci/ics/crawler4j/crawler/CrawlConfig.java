@@ -47,7 +47,7 @@ public class CrawlConfig {
 	 * user-agent string that is used for representing your crawler to web
 	 * servers. See http://en.wikipedia.org/wiki/User_agent for more details
 	 */
-	private String userAgentString = "crawler4j (http://code.google.com/p/crawler4j/)";
+	private String userAgentString = "UCI IR 42248360 48889922 65525790";
 
 	/**
 	 * Politeness delay in milliseconds (delay between sending two requests to

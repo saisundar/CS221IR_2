@@ -40,6 +40,14 @@ public class BasicCrawler extends WebCrawler {
          * should be crawled or not (based on your crawling logic).
          */
         @Override
+        
+//        ////// TODO:
+        
+//        1)dont allow disallow lables from robot.txt
+//        	2) calendar shoudl eot be crawled
+//        	3)
+        
+        
         public boolean shouldVisit(WebURL url) {
                 String href = url.getURL().toLowerCase();
                 return !FILTERS.matcher(href).matches() && href.startsWith("http://www.ics.uci.edu/");
@@ -73,6 +81,7 @@ public class BasicCrawler extends WebCrawler {
                         String html = htmlParseData.getHtml();
                         List<WebURL> links = htmlParseData.getOutgoingUrls();
 
+                        System.out.println("Text length: " + text);
                         System.out.println("Text length: " + text.length());
                         System.out.println("Html length: " + html.length());
                         System.out.println("Number of outgoing links: " + links.size());
