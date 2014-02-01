@@ -106,10 +106,10 @@ Isn't it proxy.setProxyPassword(password) ?
                  * which are found in these pages
                  */
 
-//                controller.addSeed("http://www.ics.uci.edu/");
-//                controller.addSeed("http://www.ics.uci.edu/~lopes/");
-                controller.addSeed("http://www.ics.uci.edu/~mpufal/");
-//                controller.addSeed("http://www.ics.uci.edu/~welling/");
+                controller.addSeed("http://www.ics.uci.edu/");
+                controller.addSeed("http://www.ics.uci.edu/~lopes/");
+//              controller.addSeed("http://www.ics.uci.edu/~mpufal/");
+                controller.addSeed("http://www.ics.uci.edu/~welling/");
                 
 //TODO:
 //1)HASHMAP PF STOP words
