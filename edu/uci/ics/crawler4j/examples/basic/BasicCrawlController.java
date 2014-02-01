@@ -16,6 +16,13 @@
  */
 
 package edu.uci.ics.crawler4j.examples.basic;
+import java.util.HashSet;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
@@ -28,6 +35,48 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
  */
 public class BasicCrawlController {
 
+		public static HashSet<String> stopWords = new HashSet<String>();
+		public static void readStopWords(){
+			
+			BufferedReader inputStream = null;
+			try
+			{
+				inputStream = new BufferedReader(new FileReader("C:\\Users\\SAISUNDAR\\Documents\\WINTER 2014 COURSES\\Winter Github repositories\\CS221IR_2\\stopWords.txt"));
+				String l;
+				boolean isEmpty=true;
+				while ((l = inputStream.readLine()) != null) {
+					if(l.length()==0)continue;
+					stopWords.add(l);
+					System.out.print(l+'\n');
+				}
+			}
+			catch (FileNotFoundException e) {
+				System.err.println("FileNotFoundException: " + e.getMessage());
+
+			}
+			catch (IOException e) {
+				System.err.println("Caught IOException: " + e.getMessage());
+			}
+			finally {
+				try
+				{
+					if (inputStream != null) {
+						inputStream.close();
+					}
+				}
+				catch (IOException e) {
+					System.err.println("IO exception trying to close the stream " + e.getMessage());
+				}
+
+			}
+		
+		}
+			
+			
+			
+			
+			
+		
         public static void main(String[] args) throws Exception {
                 if (args.length != 2) {
                         System.out.println("Needed parameters: ");
@@ -47,7 +96,7 @@ public class BasicCrawlController {
                  * be initiated for crawling.
                  */
                 int numberOfCrawlers = Integer.parseInt(args[1]);
-
+                
                 CrawlConfig config = new CrawlConfig();
 
                 config.setCrawlStorageFolder(crawlStorageFolder);
@@ -68,7 +117,7 @@ public class BasicCrawlController {
                  * You can set the maximum number of pages to crawl. The default value
                  * is -1 for unlimited number of pages
                  */
-                config.setMaxPagesToFetch(1000);
+                config.setMaxPagesToFetch(1);
 
                 /*
                  * Do you need to set a proxy? If so, you can use:
@@ -99,17 +148,22 @@ Isn't it proxy.setProxyPassword(password) ?
                 RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
                 RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
                 CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
-
+                
+                
+                
+                readStopWords();
+                
                 /*
                  * For each crawl, you need to add some seed urls. These are the first
                  * URLs that are fetched and then the crawler starts following links
                  * which are found in these pages
                  */
 
-                controller.addSeed("http://www.ics.uci.edu/");
-                controller.addSeed("http://www.ics.uci.edu/~lopes/");
-//              controller.addSeed("http://www.ics.uci.edu/~mpufal/");
-                controller.addSeed("http://www.ics.uci.edu/~welling/");
+//                controller.addSeed("http://www.ics.uci.edu/");
+//                controller.addSeed("http://www.ics.uci.edu/~lopes/");
+////              controller.addSeed("http://www.ics.uci.edu/~mpufal/");
+//                controller.addSeed("http://www.ics.uci.edu/~welling/");
+                  controller.addSeed("http://www.ranks.nl/resources/stopwords.html");
                 
 //TODO:
 //1)HASHMAP PF STOP words
