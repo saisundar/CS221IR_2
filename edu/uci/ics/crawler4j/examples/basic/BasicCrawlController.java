@@ -24,6 +24,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.FileWriter;
+
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
@@ -127,6 +131,25 @@ Isn't it proxy.setProxyPassword(password) ?
                  * Start the crawl. This is a blocking operation, meaning that your code
                  * will reach the line after this only when crawling is finished.
                  */
+                /* Initialize file handler to write to the file*/
+                try
+                {
+                	BasicCrawler.output = new BufferedWriter(new FileWriter("data.txt", true));
+                }
+                catch(IOException e)
+                {
+                	System.out.println("File write error");
+                }
+                
                 controller.start(BasicCrawler.class, numberOfCrawlers);
+                
+                try
+                {
+                	BasicCrawler.output.close();
+                }
+                catch(IOException e)
+                {
+                	System.out.println("File write error");
+                }
         }
 }

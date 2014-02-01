@@ -37,6 +37,8 @@ public class BasicCrawler extends WebCrawler {
 
         private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g" + "|png|tiff?|mid|mp2|mp3|mp4"
                         + "|wav|avi|mov|mpeg|ram|m4v|pdf" + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
+        
+        public static BufferedWriter output;
 
         /**
          * You should implement this function to specify whether the given url
@@ -102,11 +104,11 @@ public class BasicCrawler extends WebCrawler {
                 System.out.println("=============");
         }
         
+        /* Function to write retrieved page content to file*/
         private void writeToFile(String text, String url)
         {
         	try
         	{
-        		BufferedWriter output = new BufferedWriter(new FileWriter("data.txt", true));
         		synchronized(this)
         		{
         			output.write(url);
@@ -114,11 +116,11 @@ public class BasicCrawler extends WebCrawler {
         			output.write(text);
         			output.write("------------------------\n");
         		}
-        		output.close();
         	}
         	catch(IOException e)
         	{
         		System.out.println("File write error");
         	}
         }
+        
 }
