@@ -22,6 +22,9 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -78,6 +81,7 @@ public class BasicCrawler extends WebCrawler {
                 if (page.getParseData() instanceof HtmlParseData) {
                         HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
                         String text = htmlParseData.getText();
+                        writeToFile(text, url);
                         String html = htmlParseData.getHtml();
                         List<WebURL> links = htmlParseData.getOutgoingUrls();
 
@@ -96,5 +100,25 @@ public class BasicCrawler extends WebCrawler {
                 }
                 
                 System.out.println("=============");
+        }
+        
+        private void writeToFile(String text, String url)
+        {
+        	try
+        	{
+        		BufferedWriter output = new BufferedWriter(new FileWriter("data.txt", true));
+        		synchronized(this)
+        		{
+        			output.write(url);
+        			output.write("------------------------\n");
+        			output.write(text);
+        			output.write("------------------------\n");
+        		}
+        		output.close();
+        	}
+        	catch(IOException e)
+        	{
+        		System.out.println("File write error");
+        	}
         }
 }
