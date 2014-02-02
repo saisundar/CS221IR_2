@@ -16,16 +16,9 @@
  */
 
 package edu.uci.ics.crawler4j.examples.basic;
-import java.util.HashSet;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.FileWriter;
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
@@ -79,7 +72,7 @@ public class BasicCrawlController {
                  * You can set the maximum number of pages to crawl. The default value
                  * is -1 for unlimited number of pages
                  */
-                config.setMaxPagesToFetch(1);
+                config.setMaxPagesToFetch(100);
 
                 /*
                  * Do you need to set a proxy? If so, you can use:
@@ -118,11 +111,11 @@ Isn't it proxy.setProxyPassword(password) ?
                  * which are found in these pages
                  */
 
-//                controller.addSeed("http://www.ics.uci.edu/");
+                controller.addSeed("http://www.ics.uci.edu/");
 //                controller.addSeed("http://www.ics.uci.edu/~lopes/");
 ////              controller.addSeed("http://www.ics.uci.edu/~mpufal/");
 //                controller.addSeed("http://www.ics.uci.edu/~welling/");
-                  controller.addSeed("http://www.tutorialspoint.com/java/java_hashset_class.htm");
+//                  controller.addSeed("http://www.tutorialspoint.com/java/java_hashset_class.htm");
                 
 //TODO:
 //1)HASHMAP PF STOP words
@@ -134,7 +127,10 @@ Isn't it proxy.setProxyPassword(password) ?
                 /* Initialize file handler to write to the file*/
                 try
                 {
-                	BasicCrawler.output = new BufferedWriter(new FileWriter("data.txt", true));
+                	File f = new File("data.txt");
+                	if(f.isFile())
+                		f.delete();
+                	BasicCrawler.output = new BufferedWriter(new FileWriter(f, true));
                 }
                 catch(IOException e)
                 {
