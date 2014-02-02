@@ -55,7 +55,8 @@ public class BasicCrawler extends WebCrawler {
         
         public boolean shouldVisit(WebURL url) {
                 String href = url.getURL().toLowerCase();
-                return !FILTERS.matcher(href).matches() && href.startsWith("http://www.ics.uci.edu/");
+                return !FILTERS.matcher(href).matches() && href.startsWith("http://www.ics.uci.edu/") 
+                		&& !href.startsWith("http://www.calendar.ics.uci.edu/");
         }
 
         /**
@@ -83,7 +84,7 @@ public class BasicCrawler extends WebCrawler {
                 if (page.getParseData() instanceof HtmlParseData) {
                         HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
                         String text = htmlParseData.getText();
-                        writeToFile(text, url, docid);
+                        writeToFile(text, docid, url, domain, subDomain);
                         String html = htmlParseData.getHtml();
                         List<WebURL> links = htmlParseData.getOutgoingUrls();
 
@@ -104,12 +105,16 @@ public class BasicCrawler extends WebCrawler {
         }
         
         /* Function to write retrieved page content to file*/
-        private synchronized void writeToFile(String text, String url, int docid)
+        private synchronized void writeToFile(String text, int docid, String url, String domain,
+        		String subDomain)
         {
         	try
         	{
     			output.write("\n------------------------\n");
-    			output.write(url + " " + docid + "\n");
+    			output.write(docid + "\n");
+    			output.write(url + "\n");
+    			output.write(domain + "\n");
+    			output.write(subDomain + "\n");
     			output.write(text);
         	}
         	catch(IOException e)
