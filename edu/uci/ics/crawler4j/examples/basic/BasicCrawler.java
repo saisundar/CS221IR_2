@@ -83,11 +83,10 @@ public class BasicCrawler extends WebCrawler {
                 if (page.getParseData() instanceof HtmlParseData) {
                         HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
                         String text = htmlParseData.getText();
-                        writeToFile(text, url);
+                        writeToFile(text, url, docid);
                         String html = htmlParseData.getHtml();
                         List<WebURL> links = htmlParseData.getOutgoingUrls();
 
-                        System.out.println("Text length: " + text);
                         System.out.println("Text length: " + text.length());
                         System.out.println("Html length: " + html.length());
                         System.out.println("Number of outgoing links: " + links.size());
@@ -105,17 +104,13 @@ public class BasicCrawler extends WebCrawler {
         }
         
         /* Function to write retrieved page content to file*/
-        private void writeToFile(String text, String url)
+        private synchronized void writeToFile(String text, String url, int docid)
         {
         	try
         	{
-        		synchronized(this)
-        		{
-        			output.write(url);
-        			output.write("------------------------\n");
-        			output.write(text);
-        			output.write("------------------------\n");
-        		}
+    			output.write("\n------------------------\n");
+    			output.write(url + " " + docid + "\n");
+    			output.write(text);
         	}
         	catch(IOException e)
         	{
