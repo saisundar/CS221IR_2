@@ -35,7 +35,7 @@ import org.apache.http.Header;
 public class BasicCrawler extends WebCrawler {
 
         private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g" + "|png|tiff?|mid|mp2|mp3|mp4"
-                        + "|wav|avi|mov|mpeg|ram|m4v|pdf" + "|rm|smil|wmv|swf|wma|zip|rar|gz|bz2|s7z))$"+"|ppt|pptx|doc|docx|data|names|arff|csv|xls|xlsx|tgz|tbz2|rtf|xfa|exe|mkv|||||||||");
+                        + "|wav|avi|mov|mpeg|ram|m4v|pdf" + "|rm|smil|wmv|swf|wma|zip|rar|gz|bz2|s7z"+"|ppt|pptx|doc|docx|data|names|arff|csv|xls|xlsx|tgz|tbz2|rtf|xfa|exe|mkv))$");
         
         public static BufferedWriter textOutput;
         public static BufferedWriter htmlOutput;
