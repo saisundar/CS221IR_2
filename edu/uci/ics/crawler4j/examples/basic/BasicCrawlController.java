@@ -20,6 +20,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
@@ -94,7 +96,7 @@ Isn't it proxy.setProxyPassword(password) ?
                  * want to start a fresh crawl, you need to delete the contents of
                  * rootFolder manually.
                  */
-                config.setResumableCrawling(false);
+                config.setResumableCrawling(true);
 
                 /*
                  * Instantiate the controller for this crawl.
@@ -125,16 +127,25 @@ Isn't it proxy.setProxyPassword(password) ?
                  * will reach the line after this only when crawling is finished.
                  */
                 /* Initialize file handler to write to the file*/
+                BufferedWriter timeOutput = null;
                 try
                 {
+                	Timestamp t = new Timestamp((new Date()).getTime());
+                	
                 	File f = new File("data.txt");
                 	File f1 = new File("html.txt");
-                	if(f.isFile())
-                		f.delete();
-                	if(f1.isFile())
-                		f1.delete();
+                	File f2 = new File("time.txt");
+//                	if(f.isFile())
+//                		f.delete();
+//                	if(f1.isFile())
+//                		f1.delete();
                 	BasicCrawler.textOutput = new BufferedWriter(new FileWriter(f, true));
                 	BasicCrawler.htmlOutput = new BufferedWriter(new FileWriter(f1, true));
+                	timeOutput = new BufferedWriter(new FileWriter(f2, true));
+                	
+                	/* Write start time to file*/
+                	timeOutput.write("Start Time: " + t.toString() + "\n");
+                	timeOutput.flush();
                 }
                 catch(IOException e)
                 {
@@ -145,8 +156,11 @@ Isn't it proxy.setProxyPassword(password) ?
                 
                 try
                 {
+                	Timestamp t = new Timestamp((new Date()).getTime());
+                	timeOutput.write("End time: " + t.toString() + "\n");
                 	BasicCrawler.textOutput.close();
                 	BasicCrawler.htmlOutput.close();
+                	timeOutput.close();
                 }
                 catch(IOException e)
                 {

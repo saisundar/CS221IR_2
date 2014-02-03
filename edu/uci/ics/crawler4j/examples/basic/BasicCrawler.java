@@ -121,6 +121,7 @@ public class BasicCrawler extends WebCrawler {
     			out.write(domain + "\n");
     			out.write(subDomain + "\n");
     			out.write(text);
+    			out.flush();
         	}
         	catch(IOException e)
         	{
