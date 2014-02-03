@@ -23,7 +23,6 @@ import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -38,7 +37,8 @@ public class BasicCrawler extends WebCrawler {
         private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g" + "|png|tiff?|mid|mp2|mp3|mp4"
                         + "|wav|avi|mov|mpeg|ram|m4v|pdf" + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
         
-        public static BufferedWriter output;
+        public static BufferedWriter textOutput;
+        public static BufferedWriter htmlOutput;
 
         /**
          * You should implement this function to specify whether the given url
@@ -55,8 +55,8 @@ public class BasicCrawler extends WebCrawler {
         
         public boolean shouldVisit(WebURL url) {
                 String href = url.getURL().toLowerCase();
-                return !FILTERS.matcher(href).matches() && href.startsWith("http://www.ics.uci.edu/") 
-                		&& !href.startsWith("http://www.calendar.ics.uci.edu/");
+                return !FILTERS.matcher(href).matches() && href.contains(".ics.uci.edu") 
+                		&& !href.contains("calendar.ics.uci.edu");
         }
 
         /**
@@ -84,8 +84,9 @@ public class BasicCrawler extends WebCrawler {
                 if (page.getParseData() instanceof HtmlParseData) {
                         HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
                         String text = htmlParseData.getText();
-                        writeToFile(text, docid, url, domain, subDomain);
+                        writeToFile(textOutput, text, docid, url, domain, subDomain);
                         String html = htmlParseData.getHtml();
+                        writeToFile(htmlOutput, html, docid, url, domain, subDomain);
                         List<WebURL> links = htmlParseData.getOutgoingUrls();
 
                         System.out.println("Text length: " + text.length());
@@ -105,17 +106,17 @@ public class BasicCrawler extends WebCrawler {
         }
         
         /* Function to write retrieved page content to file*/
-        private synchronized void writeToFile(String text, int docid, String url, String domain,
+        private synchronized void writeToFile(BufferedWriter out, String text, int docid, String url, String domain,
         		String subDomain)
         {
         	try
         	{
-    			output.write("\n------------------------\n");
-    			output.write(docid + "\n");
-    			output.write(url + "\n");
-    			output.write(domain + "\n");
-    			output.write(subDomain + "\n");
-    			output.write(text);
+    			out.write("\n------------------------\n");
+    			out.write(docid + "\n");
+    			out.write(url + "\n");
+    			out.write(domain + "\n");
+    			out.write(subDomain + "\n");
+    			out.write(text);
         	}
         	catch(IOException e)
         	{

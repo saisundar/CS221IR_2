@@ -60,19 +60,19 @@ public class BasicCrawlController {
                  * Be polite: Make sure that we don't send more than 1 request per
                  * second (1000 milliseconds between requests).
                  */
-                config.setPolitenessDelay(1000);
+                config.setPolitenessDelay(300);
 
                 /*
                  * You can set the maximum crawl depth here. The default value is -1 for
                  * unlimited depth
                  */
-                config.setMaxDepthOfCrawling(2);
+                config.setMaxDepthOfCrawling(-1);
 
                 /*
                  * You can set the maximum number of pages to crawl. The default value
                  * is -1 for unlimited number of pages
                  */
-                config.setMaxPagesToFetch(100);
+                config.setMaxPagesToFetch(-1);
 
                 /*
                  * Do you need to set a proxy? If so, you can use:
@@ -128,9 +128,13 @@ Isn't it proxy.setProxyPassword(password) ?
                 try
                 {
                 	File f = new File("data.txt");
+                	File f1 = new File("html.txt");
                 	if(f.isFile())
                 		f.delete();
-                	BasicCrawler.output = new BufferedWriter(new FileWriter(f, true));
+                	if(f1.isFile())
+                		f1.delete();
+                	BasicCrawler.textOutput = new BufferedWriter(new FileWriter(f, true));
+                	BasicCrawler.htmlOutput = new BufferedWriter(new FileWriter(f1, true));
                 }
                 catch(IOException e)
                 {
@@ -141,7 +145,8 @@ Isn't it proxy.setProxyPassword(password) ?
                 
                 try
                 {
-                	BasicCrawler.output.close();
+                	BasicCrawler.textOutput.close();
+                	BasicCrawler.htmlOutput.close();
                 }
                 catch(IOException e)
                 {
