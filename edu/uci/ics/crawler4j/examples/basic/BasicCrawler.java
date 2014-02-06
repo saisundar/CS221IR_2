@@ -38,6 +38,7 @@ public class BasicCrawler extends WebCrawler {
         				+ "|png|tiff?|mid|mp2|mp3|mp4|mkv"
                         + "|wav|avi|mov|mpeg|ram|m4v|pdf"
         				+ "|rm|smil|wmv|swf|wma|zip|rar|gz|bz2|s7z|tgz|tbz2"
+                        + "|asm|c|h|cc|cpp|java|cnf"
                         + "|ppt|pptx|doc|docx|data|names|arff|csv|xls|xlsx|rtf|xfa|exe))$");
         
         public static BufferedWriter textOutput;
@@ -51,16 +52,22 @@ public class BasicCrawler extends WebCrawler {
         
 //        ////// TODO:
         
-//        1)dont allow disallow lables from robot.txt
-//        	2) calendar shoudl eot be crawled
-//        	3)
+//      archive contains too many selection parameters
+//      flamingo source code
+//      http://fano.ics.uci.edu/ca/						  genetic algorithm glider files
+//      http://ironwood.ics.uci.edu/start?do=revisions    duplicate page content
+//    	http://drzaius.ics.uci.edu/cgi-bin/cvsweb.cgi/    repository
         
         
         public boolean shouldVisit(WebURL url) {
                 String href = url.getURL().toLowerCase();
-                return !FILTERS.matcher(href).matches() && href.contains(".ics.uci.edu") 
+                return !FILTERS.matcher(href).matches() && href.contains(".ics.uci.edu/") 
                 		&& !href.contains("calendar.ics.uci.edu") 
-                		&& !href.startsWith("http://archive.ics.uci.edu/ml/machine-learning-databases/");
+                		&& !href.contains("archive.ics.uci.edu")
+                		&& !href.startsWith("http://flamingo.ics.uci.edu/releases/")
+                		&& !href.startsWith("http://fano.ics.uci.edu/ca")
+                		&& !href.startsWith("http://ironwood.ics.uci.edu/start?do=revisions")
+                		&& !href.startsWith("http://drzaius.ics.uci.edu/cgi-bin/cvsweb.cgi/");
         }
 
         /**
